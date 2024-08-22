@@ -236,7 +236,6 @@ HTTPS_PROXY_LICENSE_SERVER="{env_vars['HTTPS_PROXY_LICENSE_SERVER']}"
         if '="None"' in line:
             # Comment out the line and remove the "None" value
             line = f"# {line.split('=')[0]}="
-            continue # dont add at all
         processed_lines.append(line)
 
     env_vars = '\n'.join(processed_lines)
