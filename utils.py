@@ -92,7 +92,7 @@ class Question:
     """
     A class to create interactive prompts, collect user responses, and update environment variables.
 
-    The class promts the user the question on instantiation. See examples below.
+    The class prompts the user with the question on instantiation. See examples below.
 
     This class handles various types of user inputs, including free-form text, multiple choice,
     confirmations, and password entries. It can automatically update specified environment
@@ -101,11 +101,12 @@ class Question:
     Attributes:
         question (str): The text of the question to be asked.
         input_type (Input_Type): The type of input expected from the user.
+        env_to_update (List[str] | None): Environment variables to update with the answer.
+        options (List[str] | None): List of options for multiple-choice questions.
         validate (Callable | None): Optional function to validate user input.
         validate_message (str | None): Error message to display if validation fails.
         env_var_prefix (str): Prefix to add to the answer when updating environment variables.
-        options (List[str] | None): List of options for multiple-choice questions.
-        env_to_update (List[str] | None): Environment variables to update with the answer.
+        default (str | None): Default value for the question.
         answer (str): The user's answer after prompting.
 
     Methods:
@@ -116,7 +117,6 @@ class Question:
         Multiple choice question:
         >>> install_complexity = Question(
         ...     "How customized would you like your n8n Install?:",
-        ...     None,
         ...     Input_Type.CHOICE,
         ...     options=['simple', 'complex']
         ... )
@@ -125,30 +125,28 @@ class Question:
         Password input:
         >>> open_ai_key = Question(
         ...     "Enter your OpenAi API Key:",
-        ...     "N8N_AI_OPENAI_API_KEY",
-        ...     Input_Type.PASSWORD
+        ...     Input_Type.PASSWORD,
+        ...     env_to_update="N8N_AI_OPENAI_API_KEY"
         ... )
         This prompts for a password and updates the "N8N_AI_OPENAI_API_KEY" environment variable.
 
         Text input with validation:
         >>> domain_name = Question(
         ...     "What's your domain?:",
-        ...     ['N8N_EDITOR_BASE_URL', 'WEBHOOK_URL'],
         ...     Input_Type.INPUT,
-        ...     None,
-        ...     lambda selection: selection.count("/") == 0,
-        ...     "do not include 'https://' or any trailing '/'.",
-        ...     "https://"
+        ...     env_to_update=['N8N_EDITOR_BASE_URL', 'WEBHOOK_URL'],
+        ...     validate=lambda selection: selection.count("/") == 0,
+        ...     validate_message="do not include 'https://' or any trailing '/'.",
+        ...     env_var_prefix="https://"
         ... )
         This creates a text input question that updates two environment variables with 'https://'
         prefixed to the user's input. It includes input validation to ensure the domain doesn't
         contain slashes. The prefix is only added to the env var and the answer prop on the class 
-        remains without the prefix
+        remains without the prefix.
 
         Confirmation question:
         >>> enterprise_customer = Question(
         ...     "Do you have an enterprise key?:",
-        ...     None,
         ...     Input_Type.CONFIRM
         ... ).answer
         >>> if enterprise_customer == 'True':
@@ -158,7 +156,8 @@ class Question:
     Note:
         The question is automatically prompted upon initialization, and the answer
         is stored in the `answer` attribute. Environment variables are updated automatically
-        if `env_to_update` is provided.
+        if `env_to_update` is provided. If no validation function is provided for Input_Type.INPUT,
+        a default validation is applied to prevent answers with only spaces.
     """
     def __init__(
             self, 

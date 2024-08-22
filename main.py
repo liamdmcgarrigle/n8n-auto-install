@@ -1,4 +1,3 @@
-from InquirerPy import prompt
 from docker import install_docker
 from cloudflare import create_cf_tunnel
 from n8n import start_n8n_container
@@ -15,7 +14,6 @@ Reminder: You will have keys in a .env file on your system after this proccess. 
 """)
 
 
-# TODO: Can we get rid of this?
 is_custom_image = False
 list_of_packages = []
 
@@ -52,21 +50,23 @@ Question(
     default = str(local_timezone) or "America/New_York"
 )
 
-is_ai_enabled = Question(
-    "Would you like n8n AI enabled? If yes it will require an openAi API key (the AI in the n8n UI, not the AI nodes):",
-    Input_Type.CONFIRM,
-    None,
-).answer == "True"
+# \/ Jon let me know that the ai is disabled at the moment \/
+
+# is_ai_enabled = Question(
+#     "Would you like n8n AI enabled? If yes it will require an openAi API key (the AI in the n8n UI, not the AI nodes):",
+#     Input_Type.CONFIRM,
+#     None,
+# ).answer == "True"
 
 # AI Questions
-if is_ai_enabled:
-    env_vars["N8N_AI_ENABLED"] = "true"
+# if is_ai_enabled:
+#     env_vars["N8N_AI_ENABLED"] = "true"
 
-    Question(
-        "Enter your OpenAi API Key:",
-        Input_Type.PASSWORD,
-        "N8N_AI_OPENAI_API_KEY",
-    )
+#     Question(
+#         "Enter your OpenAi API Key:",
+#         Input_Type.PASSWORD,
+#         "N8N_AI_OPENAI_API_KEY",
+#     )
 
 # ------------------------------------------------------------------------
 # ----------------------- REVERSE PROXY QUESTIONS ------------------------
