@@ -1,3 +1,4 @@
+from utils import run_command
 import os
 import base64
 import requests
@@ -62,6 +63,7 @@ def _create_tunnel(domain, account_id, token, tunnel_secret):
         return response.json()
     else:
         print(f"Failed to create tunnel. Status code: {response.status_code}")
+        print(response.json())
         exit()
 
 
@@ -191,16 +193,8 @@ def _add_tunnel_dns_records(tunnel_id, domain, account_id, token):
 
 def _run_cf_docker_tunnel(tunnel_token):
     # run docker from token returned from creation
-    command = f"docker run -d cloudflare/cloudflared:latest tunnel --no-autoupdate run --token {tunnel_token}"
 
-    try:
-        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error running command: {command}")
-        print(f"Exit code: {e.returncode}")
-        print(f"Output: {e.output}")
-        print(f"Error: {e.stderr}")
-        exit(1)
+    run_command(f"docker run -d cloudflare/cloudflared:latest tunnel --no-autoupdate run --token {tunnel_token}")
 
 
 

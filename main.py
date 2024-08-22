@@ -42,7 +42,7 @@ domain = Question(
      lambda selection: selection.count("/") == 0,
      "do not include 'https://' or any trailing '/'.",
      "https://"
-)
+).answer
 
 Question(
     "What is your time zone?:",
@@ -84,12 +84,12 @@ if reverse_proxy_option == Reverse_Proxy_Type.CLOUDFLARE.value:
         "Cloudflare Account ID?:",
         Input_Type.INPUT,
         None,
-    )
+    ).answer
     cloudflare_token = Question(
         "What's your CloudFlare Token? (must have Cloudflare Tunnel & DNS Scopes):",
         Input_Type.PASSWORD,
         None,
-    )
+    ).answer
 
 
 if detailed_setup:
