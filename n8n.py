@@ -336,7 +336,7 @@ RUN apk update
             continue
         install_text.append(f"""\
 # {package}
-apk add {package}
+RUN apk add {package}
 """)
         
     middle_of_dockerfile = "\n".join(install_text)
