@@ -4,7 +4,7 @@ import re
 from utils import run_command, create_file
 
 
-def start_n8n_container(env_vars, is_custom_image, list_of_packages):
+def start_n8n_container(env_vars, is_custom_image, list_of_packages = None):
 
     print("\nCreating config files...")
     # Creates n8n folder one folder back
