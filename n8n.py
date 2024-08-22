@@ -32,12 +32,12 @@ def start_n8n_container(env_vars, is_custom_image, list_of_packages = None):
     # Build image
     if is_custom_image:
         print("\nBuilding image. This might take a few minutes...")
-        run_command("cd n8n && sudo docker compose build")
+        run_command("cd n8n &&  docker compose build")
         print("\nImage build complete.")
 
     # Run container
     print("\nStarting container. This might take a minute...")
-    run_command("cd n8n && sudo docker compose up -d")
+    run_command("cd n8n &&  docker compose up -d")
     print("Container started. It should now be locally avalible at http://localhost:5678")
 
 
@@ -52,9 +52,7 @@ def _create_env_file(env_vars):
 N8N_VERSION="latest"
 
 # AI VARIABLES
-# N8N_AI_ENABLED="{env_vars['N8N_AI_ENABLED']}"
-# N8N_AI_PROVIDER="{env_vars['N8N_AI_PROVIDER']}"
-# N8N_AI_OPENAI_API_KEY="{env_vars['N8N_AI_OPENAI_API_KEY']}"
+
 
 # CREDENTIALS VARIABLES
 CREDENTIALS_DEFAULT_NAME="{env_vars['CREDENTIALS_DEFAULT_NAME']}"
@@ -158,18 +156,18 @@ DB_LOGGING_MAX_EXECUTION_TIME="{env_vars['DB_LOGGING_MAX_EXECUTION_TIME']}"
 CODE_ENABLE_STDOUT="{env_vars['CODE_ENABLE_STDOUT']}"
 
 # LOG STREAMING
-N8N_EVENTBUS_CHECKUNSENTINTERVAL="{env_vars['N8N_EVENTBUS_CHECKUNSENTINTERVAL']}"
-N8N_EVENTBUS_LOGWRITER_SYNCFILEACCESS="{env_vars['N8N_EVENTBUS_LOGWRITER_SYNCFILEACCESS']}"
-N8N_EVENTBUS_LOGWRITER_KEEPLOGCOUNT="{env_vars['N8N_EVENTBUS_LOGWRITER_KEEPLOGCOUNT']}"
-N8N_EVENTBUS_LOGWRITER_MAXFILESIZEINKB="{env_vars['N8N_EVENTBUS_LOGWRITER_MAXFILESIZEINKB']}"
-N8N_EVENTBUS_LOGWRITER_LOGBASENAME="{env_vars['N8N_EVENTBUS_LOGWRITER_LOGBASENAME']}"
+# N8N_EVENTBUS_CHECKUNSENTINTERVAL="{env_vars['N8N_EVENTBUS_CHECKUNSENTINTERVAL']}"
+# N8N_EVENTBUS_LOGWRITER_SYNCFILEACCESS="{env_vars['N8N_EVENTBUS_LOGWRITER_SYNCFILEACCESS']}"
+# N8N_EVENTBUS_LOGWRITER_KEEPLOGCOUNT="{env_vars['N8N_EVENTBUS_LOGWRITER_KEEPLOGCOUNT']}"
+# N8N_EVENTBUS_LOGWRITER_MAXFILESIZEINKB="{env_vars['N8N_EVENTBUS_LOGWRITER_MAXFILESIZEINKB']}"
+# N8N_EVENTBUS_LOGWRITER_LOGBASENAME="{env_vars['N8N_EVENTBUS_LOGWRITER_LOGBASENAME']}"
 
 # EXTERNAL DATA STORAGE
-N8N_EXTERNAL_STORAGE_S3_HOST="{env_vars['N8N_EXTERNAL_STORAGE_S3_HOST']}"
-N8N_EXTERNAL_STORAGE_S3_BUCKET_NAME="{env_vars['N8N_EXTERNAL_STORAGE_S3_BUCKET_NAME']}"
-N8N_EXTERNAL_STORAGE_S3_BUCKET_REGION="{env_vars['N8N_EXTERNAL_STORAGE_S3_BUCKET_REGION']}"
-N8N_EXTERNAL_STORAGE_S3_ACCESS_KEY="{env_vars['N8N_EXTERNAL_STORAGE_S3_ACCESS_KEY']}"
-N8N_EXTERNAL_STORAGE_S3_ACCESS_SECRET="{env_vars['N8N_EXTERNAL_STORAGE_S3_ACCESS_SECRET']}"
+# N8N_EXTERNAL_STORAGE_S3_HOST="{env_vars['N8N_EXTERNAL_STORAGE_S3_HOST']}"
+# N8N_EXTERNAL_STORAGE_S3_BUCKET_NAME="{env_vars['N8N_EXTERNAL_STORAGE_S3_BUCKET_NAME']}"
+# N8N_EXTERNAL_STORAGE_S3_BUCKET_REGION="{env_vars['N8N_EXTERNAL_STORAGE_S3_BUCKET_REGION']}"
+# N8N_EXTERNAL_STORAGE_S3_ACCESS_KEY="{env_vars['N8N_EXTERNAL_STORAGE_S3_ACCESS_KEY']}"
+# N8N_EXTERNAL_STORAGE_S3_ACCESS_SECRET="{env_vars['N8N_EXTERNAL_STORAGE_S3_ACCESS_SECRET']}"
 
 # NODES
 NODES_INCLUDE="{env_vars['NODES_INCLUDE']}"
@@ -251,6 +249,8 @@ HTTPS_PROXY_LICENSE_SERVER="{env_vars['HTTPS_PROXY_LICENSE_SERVER']}"
             continue # dont add at all
         if '=""' in line:
             continue # dont add at all
+        if line.startswith("#"):
+            continue
         elif not '=' in line:
             continue
         elif 'N8N_VERSION' in line:
