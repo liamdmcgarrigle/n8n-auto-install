@@ -2,7 +2,7 @@
 
 Just run the command 
 ```
-curl -sSL https://raw.githubusercontent.com/liamdmcgarrigle/n8n-auto-install/main/install.sh | bash && bash n8n-auto-install/env-setup.sh
+curl -sSL https://raw.githubusercontent.com/liamdmcgarrigle/n8n-auto-install/main/install.sh | bash && bash n8n-auto-install/setup.sh
 ```
 
 Then you will just need to answer the questions that are prompted
