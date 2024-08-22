@@ -7,6 +7,9 @@ curl -sSL https://raw.githubusercontent.com/liamdmcgarrigle/n8n-auto-install/mai
 
 Then you will just need to answer the questions that are prompted
 
+## Quick Example Video
+![Example Video](./images/example_video.mp4)
+
 
 ## What it does
 
