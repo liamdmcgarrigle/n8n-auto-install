@@ -1,5 +1,3 @@
-import subprocess
-import requests
 import re
 from utils import run_command, create_file
 

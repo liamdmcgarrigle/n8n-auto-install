@@ -7,7 +7,6 @@ curl -sSL https://raw.githubusercontent.com/liamdmcgarrigle/n8n-auto-install/mai
 
 Then you will just need to answer the questions that are prompted
 
------- ADD A GIF HERE OF THE QUESTIONS AND ANSWERS ------
 
 ## What it does
 
@@ -25,8 +24,26 @@ Then you will just need to answer the questions that are prompted
 5. Automatically sets up a Cloudflare tunnel and sets Cloudflare DNS records with your Cloudflare token (if you select that option)
 6. Deletes itself from your machine
 
+# Supported OS
+This script supports all Linux distros supported with the [official install script](https://github.com/docker/docker-install) and Mac. This does not support Windows. If using Windows, run on WSL (though i did not test there).
+
+# Cloudflare Tunnel Required Info
+1. Your domain needs to be managed on Cloudflare
+It does not need to be registered there, just managed. It is free.
+
+2. Create an API Token
+Go to [https://dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens) to create a token. You need the `Cloudflare Tunnel:Edit` and `DNS:Edit` scopes.
+
+3. Get Account ID
+Go to [your CloudFlare Dashboard](https://dash.cloudflare.com/). The ID in the URL is your account ID.
+
+![account id screenshot](./images/cloudflare_account_id.png)
+
+
 # Maintenance and Trouble Shooting
-If you are using this because you don't 
+You will need to manually interact with the commandline to update your instance in the future or to troubleshoot setup issues.
+
+If there is an error during setup, you may need to delete the files and folders it created before trying again or it might cause more errors.
 
 ## Commands you need to know
 ### `cd`
@@ -42,17 +59,10 @@ These are commands to delete files and folders.
 If you are in a directory that has a file called `dockerfile` in it, you can run `rm dockerfile` and it will delete.
 If you want to delete a folder with the items inside of it you can run `rm -rf folder-name`. 
 
-# Supported OS
-This script supports all Linux distros supported with the [official install script](https://github.com/docker/docker-install) and Mac. This does not support Windows. If using Windows, run on WSL (though i did not test there).
+### `nano`
+This command opens a text editor for a file. 
+If you are in a directory that has a file called `.env` in it, you can run `nano .env` and it will open.
+From there you can edit the values in the .env file, which is where all the options during this proccess save, and then can save it following instructions on screen
 
-# Cloudflare Tunnel Required Info
-1. Your domain needs to be managed on Cloudflare
-It does not need to be registered there, just managed. It is free.
-
-2. Create an API Token
-Go to [https://dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens) to create a token. You need the `Cloudflare Tunnel:Edit` and `DNS:Edit` scopes.
-
-3. Get Account ID
-Go to [your CloudFlare Dashboard](https://dash.cloudflare.com/). The ID in the URL is your account ID.
-
-![account id screenshot](./images/cloudflare_account_id.png)
+### `docker compose down` & `docker compose up -d`
+These commands start and stop your n8n docker container. You need to be in the n8n directory with the `docker-compose.yaml` file.
