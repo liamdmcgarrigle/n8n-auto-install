@@ -835,10 +835,6 @@ From there you will need to restart the container with `docker compose down` and
 """)
 
 
-
-print(env_vars)
-
-
 # Dont forget to ask stuff about custom image and custom dependencies
 
 
