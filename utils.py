@@ -242,9 +242,9 @@ class Question:
 env_vars = {
 
     # AI VARIABLES
-    "N8N_AI_ENABLED": None,
-    "N8N_AI_PROVIDER": "openai",
-    "N8N_AI_OPENAI_API_KEY": None,
+    # "N8N_AI_ENABLED": None,
+    # "N8N_AI_PROVIDER": "openai",
+    # "N8N_AI_OPENAI_API_KEY": None,
 
     # CREDENTIALS VARIABLES
     "CREDENTIALS_DEFAULT_NAME": "My credentials",
