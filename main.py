@@ -816,23 +816,23 @@ Visit https://docs.n8n.io/hosting/configuration/environment-variables/ to see mo
             default = "300"
         )
     
-    is_custom_image = Question(
-        "Continue with default image? A custom image would be for extra dependencies like ffmpeg. This adds a build step which takes much longer than using the prebuilt image. (Y = default image)",
-        Input_Type.CONFIRM,
-    ).answer == "False"
+#     is_custom_image = Question(
+#         "Continue with default image? A custom image would be for extra dependencies like ffmpeg. This adds a build step which takes much longer than using the prebuilt image. (Y = default image)",
+#         Input_Type.CONFIRM,
+#     ).answer == "False"
 
     
-    if is_custom_image:
-        list_of_packages = Question(
-            "Comma seperated list of required extra dependencies:",
-            Input_Type.INPUT,
-        ).answer
-        print("""
-This will make a docker file in the root of the n8n directory.
+#     if is_custom_image:
+#         list_of_packages = Question(
+#             "Comma seperated list of required extra dependencies:",
+#             Input_Type.INPUT,
+#         ).answer
+#         print("""
+# This will make a docker file in the root of the n8n directory.
               
-If you need to modify it further then go there and make and changes then run `docker compose build` in the same directory.
-From there you will need to restart the container with `docker compose down` and `docker compose up -d`
-""")
+# If you need to modify it further then go there and make and changes then run `docker compose build` in the same directory.
+# From there you will need to restart the container with `docker compose down` and `docker compose up -d`
+# """)
 
 
 # Dont forget to ask stuff about custom image and custom dependencies

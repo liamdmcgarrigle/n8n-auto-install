@@ -48,7 +48,7 @@ def _create_env_file(env_vars):
 
     env_template = f"""
 # See Vars at https://docs.n8n.io/hosting/configuration/environment-variables/
-# File setup by an automated script by liam@teraprise.io found here https://link.com
+# File setup by an automated script by liam@teraprise.io found here https://github.com/liamdmcgarrigle/n8n-auto-install
 
 # N8N VERSION
 N8N_VERSION="latest"
