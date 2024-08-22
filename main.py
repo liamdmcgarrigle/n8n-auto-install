@@ -16,7 +16,7 @@ Reminder: You will have keys in a .env file on your system after this proccess. 
 
 
 # TODO: Can we get rid of this?
-is_custom_image = false
+is_custom_image = False
 
 
 # ------------------------------------------------------------------------
