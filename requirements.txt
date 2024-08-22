@@ -1,0 +1,13 @@
+certifi==2024.7.4
+charset-normalizer==3.3.2
+filelock==3.15.4
+idna==3.7
+inquirerpy==0.3.4
+pfzy==0.3.4
+prompt_toolkit==3.0.47
+requests==2.32.3
+requests-file==2.1.0
+tldextract==5.1.2
+tzlocal==5.2
+urllib3==2.2.2
+wcwidth==0.2.13
