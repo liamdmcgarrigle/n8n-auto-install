@@ -194,7 +194,7 @@ def _add_tunnel_dns_records(tunnel_id, domain, account_id, token):
 def _run_cf_docker_tunnel(tunnel_token):
     # run docker from token returned from creation
 
-    run_command(f"docker run -d cloudflare/cloudflared:latest tunnel --no-autoupdate run --token {tunnel_token}")
+    run_command(f"sudo docker run -d cloudflare/cloudflared:latest tunnel --no-autoupdate run --token {tunnel_token}")
 
 
 

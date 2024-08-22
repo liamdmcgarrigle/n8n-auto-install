@@ -32,12 +32,12 @@ def start_n8n_container(env_vars, is_custom_image, list_of_packages = None):
     # Build image
     if is_custom_image:
         print("\nBuilding image. This might take a few minutes...")
-        run_command("cd n8n && docker compose build")
+        run_command("cd n8n && sudo docker compose build")
         print("\nImage build complete.")
 
     # Run container
     print("\nStarting container. This might take a minute...")
-    run_command("cd n8n && docker compose up -d")
+    run_command("cd n8n && sudo docker compose up -d")
     print("Container started. It should now be locally avalible at http://localhost:5678")
 
 
