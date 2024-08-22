@@ -847,7 +847,6 @@ print("n8n started")
 # Start cloudflare tunnel (if selected)
 if reverse_proxy_option == Reverse_Proxy_Type.CLOUDFLARE.value:
     create_cf_tunnel(domain, cloudflare_id, cloudflare_token)
-    print("add cloudflare create here")
 
 
 
