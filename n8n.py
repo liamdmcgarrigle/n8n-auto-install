@@ -8,38 +8,38 @@ def start_n8n_container(env_vars, is_custom_image, list_of_packages = None):
 
     print("\nCreating config files...")
     # Creates n8n folder one folder back
-    run_command("cd .. && mkdir n8n")
+    run_command("mkdir n8n")
 
     # Creates .env file with all our vars
     vars = _create_env_file(env_vars)
 
     # Create .env file
-    create_file("../n8n/.env", vars["env_vars"])
+    create_file("n8n/.env", vars["env_vars"])
 
     # Create docker-compose.yaml file based on custom image
     if not is_custom_image:
         # Create docker compose file with default image
-        create_file("../n8n/docker-compose.yaml", _create_dockercompose_file(vars["dockercompose_vars"], False))
+        create_file("n8n/docker-compose.yaml", _create_dockercompose_file(vars["dockercompose_vars"], False))
     else:
         # create docker compose file with custom image
-        create_file("../n8n/docker-compose.yaml", _create_dockercompose_file(vars["dockercompose_vars"], True))
+        create_file("n8n/docker-compose.yaml", _create_dockercompose_file(vars["dockercompose_vars"], True))
         # create docker file to build the image
-        create_file("../n8n/dockerfile", _create_dockerfile(list_of_packages or ""))
+        create_file("n8n/dockerfile", _create_dockerfile(list_of_packages or ""))
         # create docker entrypoint file
-        create_file("../n8n/docker-entrypoint.sh", _create_docker_entrypoint())
+        create_file("n8n/docker-entrypoint.sh", _create_docker_entrypoint())
         # make docker entrypoint file executable
-        run_command("cd ../n8n && sudo chmod +x docker-entrypoint.sh")
+        run_command("cd n8n && sudo chmod +x docker-entrypoint.sh")
     print("Files created")
 
     # Build image
     if is_custom_image:
         print("\nBuilding image. This might take a few minutes...")
-        run_command("cd ../n8n && docker compose build")
+        run_command("cd n8n && docker compose build")
         print("\nImage build complete.")
 
     # Run container
     print("\nStarting container. This might take a minute...")
-    run_command("cd ../n8n && docker compose up -d")
+    run_command("cd n8n && docker compose up -d")
     print("Container started. It should now be locally avalible at http://localhost:5678")
 
 
