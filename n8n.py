@@ -51,7 +51,7 @@ def _create_env_file(env_vars):
 # File setup by an automated script by liam@teraprise.io found here https://link.com
 
 # N8N VERSION
-N8N_VERSION="{_get_n8n_version()}"
+N8N_VERSION="latest"
 
 # AI VARIABLES
 N8N_AI_ENABLED="{env_vars['N8N_AI_ENABLED']}"
@@ -392,46 +392,3 @@ def _replace_env_vars(text):
     pattern = r'(\w+)="([^"]*)"'
     replacement = r'\1=${\1}'
     return re.sub(pattern, replacement, text)
-
-def _get_n8n_version():
-    """
-    Fetch the latest stable version of n8n from Docker Hub.
-
-    Returns:
-    str: The latest stable version of n8n, or None if unable to fetch.
-    """
-    url = "https://hub.docker.com/v2/repositories/n8nio/n8n/tags"
-    
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        data = response.json()
-
-        for tag in data['results']:
-            if tag['name'] == 'latest':
-                # Check if 'latest' tag has an actual version number
-                if 'images' in tag and tag['images']:
-                    for image in tag['images']:
-                        if 'digest' in image:
-                            # Find the corresponding numbered version for this digest
-                            for other_tag in data['results']:
-                                if other_tag['name'] != 'latest' and 'images' in other_tag and other_tag['images']:
-                                    for other_image in other_tag['images']:
-                                        if 'digest' in other_image and other_image['digest'] == image['digest']:
-                                            return other_tag['name']
-                
-                # If we couldn't find a numbered version, just return 'latest'
-                return 'latest'
-
-        # If 'latest' tag is not found, return the first numbered version
-        for tag in data['results']:
-            if tag['name'] != 'latest':
-                return tag['name']
-
-        print("No suitable version found.")
-        return None
-
-    except requests.RequestException as e:
-        print(f"Error fetching n8n versions: {e}")
-        return None
-    

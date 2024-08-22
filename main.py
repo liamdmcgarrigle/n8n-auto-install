@@ -860,5 +860,4 @@ liam@teraprise.io
 
 # TODO: add cleanup scripts here
 print("deleting temp folder...")
-run_command("deactivate")
-run_command("cd .. && rm -rf n8n-auto-install")
+run_command("rm -rf n8n-auto-install")
