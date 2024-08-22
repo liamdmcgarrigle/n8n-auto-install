@@ -28,7 +28,9 @@ Then you will just need to answer the questions that are prompted
 6. Deletes itself from your machine
 
 # Supported OS
-This script supports all Linux distros supported with the [official install script](https://github.com/docker/docker-install) and Mac. This does not support Windows. If using Windows, run on WSL (though i did not test there).
+This script supports all Linux distros supported with the [official install script](https://github.com/docker/docker-install). This does not support Windows or Mac. If using Windows, run on WSL (though i did not test there).
+
+It would be very easy to add mac support, the only unsupported command is running docker with sudo. If you would like mac support let me know
 
 # Cloudflare Tunnel Required Info
 1. Your domain needs to be managed on Cloudflare
