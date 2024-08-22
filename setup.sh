@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Activate the virtual environment
-source n8n-auto-install/n8n_venv/bin/activate
+source n8n-auto-install/env/bin/activate
 
 # Install requirements
 n8n-auto-install/n8n_venv/bin/pip install -r n8n-auto-install/requirements.txt -q
