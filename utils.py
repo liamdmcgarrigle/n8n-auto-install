@@ -263,7 +263,6 @@ env_vars = {
     "N8N_TEMPLATES_ENABLED": "false",
     "N8N_TEMPLATES_HOST": None,
     "N8N_ENCRYPTION_KEY": None,
-    "N8N_USER_FOLDER": "user-folder",
     "N8N_GRACEFUL_SHUTDOWN_TIMEOUT": "30",
     "N8N_PUBLIC_API_DISABLED": None,
     "N8N_HIRING_BANNER_ENABLED": None,

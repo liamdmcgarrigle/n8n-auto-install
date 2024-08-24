@@ -191,24 +191,13 @@ Visit https://docs.n8n.io/hosting/configuration/environment-variables/ to see mo
             "N8N_ENCRYPTION_KEY",
             )
     
-    # Custom user folder
-    keep_default_user_folder = Question(
-        "Do you want to keep the default user folder?:",
-        Input_Type.CONFIRM,
-    ).answer == "True"
-    if not keep_default_user_folder:
-        Question(
-            "Input custom user folder path",
-            Input_Type.INPUT,
-            "N8N_USER_FOLDER",
-            )
         
     # custom graceful shutdown time
-    keep_default_user_folder = Question(
+    keep_default_shut_down_time = Question(
         "Do you want to keep the default graceful shutdown timeout?:",
         Input_Type.CONFIRM,
     ).answer == "True"
-    if not keep_default_user_folder:
+    if not keep_default_shut_down_time:
         Question(
             "Input custom shutdown time in seconds:",
             Input_Type.INPUT,
@@ -234,7 +223,7 @@ Visit https://docs.n8n.io/hosting/configuration/environment-variables/ to see mo
         "Do you want to keep the default binary data storage path?:",
         Input_Type.CONFIRM,
     ).answer == "True"
-    if not keep_default_user_folder:
+    if not keep_default_storage_path:
         Question(
             "Input custom binary storage path:",
             Input_Type.INPUT,

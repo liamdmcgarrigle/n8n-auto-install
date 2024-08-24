@@ -1,5 +1,3 @@
-WARNING: I have run into an issue where data is not persisting in the docker volume. 
-
 # How to use
 
 Just run the command 
@@ -10,7 +8,7 @@ curl -sSL https://raw.githubusercontent.com/liamdmcgarrigle/n8n-auto-install/mai
 Then you will just need to answer the questions that are prompted
 
 ## Quick Example Video
-![Example Video](./images/example_video.webp)
+https://youtu.be/RlEwZ9xWLpk
 
 
 ## What it does
@@ -51,6 +49,18 @@ Go to [your CloudFlare Dashboard](https://dash.cloudflare.com/). The ID in the U
 You will need to manually interact with the commandline to update your instance in the future or to troubleshoot setup issues.
 
 If there is an error during setup, you may need to delete the files and folders it created before trying again or it might cause more errors.
+
+## If there is an error or you need to correct a wrong input
+1. if needed, stop the script with `ctrl c`
+2. remove the folders the script created using the commands explained below
+   - it makes a folder named `n8n` and `n8n-auto-install`
+3. rerun the command
+
+## If you are having problems with data not saving after a restart
+The first deployment of this had a fatal error that caused data not to save. 
+The env variable `N8N_USER_FOLDER` had the wrong default value in the original version of the script.
+
+I don't think this will effect anyones production instances, but if it does, back up your workflows before restarting your instance because you WILL lose eveything (if you used this script before Aug/24/2024)
 
 ## Commands you need to know
 ### `cd`
