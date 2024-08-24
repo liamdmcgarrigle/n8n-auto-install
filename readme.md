@@ -1,3 +1,5 @@
+WARNING: I have run into an issue where data is not persisting in the docker volume. 
+
 # How to use
 
 Just run the command 
