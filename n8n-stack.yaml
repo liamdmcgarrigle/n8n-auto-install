@@ -1,0 +1,114 @@
+# Simple n8n stack file
+
+services:
+
+  n8n_postgres:
+    image: postgres:16-alpine
+    hostname: n8n_postgres
+    networks: ['shared-network']
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/n8n_db_password
+      - POSTGRES_DB=n8n_postgres
+    volumes:
+      - postgres_storage:/var/lib/postgresql/data
+    secrets:
+      - n8n_db_password
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -h localhost -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  n8n:
+    image: n8nio/n8n:${N8N_VERSION:-latest}
+    environment:
+      # These vars plus many more are defined by n8n
+      # See the docs here https://docs.n8n.io/hosting/configuration/environment-variables/
+      
+      - DB_POSTGRESDB_DATABASE=n8n_postgres
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=n8n_postgres
+      - DB_POSTGRESDB_USER=${POSTGRES_USER:-postgres}
+      - DB_POSTGRESDB_PASSWORD_FILE=/run/secrets/n8n_db_password
+      - DB_POSTGRESDB_POOL_SIZE=${DB_POSTGRESDB_POOL_SIZE:-2}
+
+      - N8N_DIAGNOSTICS_ENABLED=${N8N_DIAGNOSTICS_ENABLED:-false}
+      - N8N_PERSONALIZATION_ENABLED=false
+      - N8N_HIRING_BANNER_ENABLED=false
+      - N8N_TEMPLATES_ENABLED=${N8N_TEMPLATES_ENABLED:-true}
+
+      - N8N_VERSION=${N8N_VERSION:-latest}
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE:-America/New_York}
+      - N8N_EDITOR_BASE_URL=https://${N8N_DOMAIN}
+      - WEBHOOK_URL=https://${N8N_DOMAIN}
+
+      - N8N_PAYLOAD_SIZE_MAX=${N8N_PAYLOAD_SIZE_MAX:-16} # in MiB
+      - N8N_FORMDATA_FILE_SIZE_MAX=${N8N_FORMDATA_FILE_SIZE_MAX:-200} # in MiB
+      
+      - EXECUTIONS_DATA_SAVE_ON_ERROR=${EXECUTIONS_DATA_SAVE_ON_ERROR:-all} # `all` `none`
+      - EXECUTIONS_DATA_SAVE_ON_SUCCESS=${EXECUTIONS_DATA_SAVE_ON_SUCCESS:-all} # `all` `none` 
+      - EXECUTIONS_DATA_SAVE_ON_PROGRESS=${EXECUTIONS_DATA_SAVE_ON_PROGRESS:-false} # `true` `false`
+      - EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS=${EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS:-true} # `true` `false`
+      - EXECUTIONS_DATA_PRUNE=${EXECUTIONS_DATA_PRUNE:-true} 
+      - EXECUTIONS_DATA_MAX_AGE=${EXECUTIONS_DATA_MAX_AGE:-336} # in hours
+      - EXECUTIONS_DATA_PRUNE_MAX_COUNT=${EXECUTIONS_DATA_PRUNE_MAX_COUNT:-10000} # 0 = no limit
+      - EXECUTIONS_DATA_HARD_DELETE_BUFFER=${EXECUTIONS_DATA_HARD_DELETE_BUFFER:-1} # in hours
+      - EXECUTIONS_DATA_PRUNE_HARD_DELETE_INTERVAL=${EXECUTIONS_DATA_PRUNE_HARD_DELETE_INTERVAL:-15} # in minutes
+      - EXECUTIONS_DATA_PRUNE_SOFT_DELETE_INTERVAL=${EXECUTIONS_DATA_PRUNE_SOFT_DELETE_INTERVAL:-60} # in minutes
+      - N8N_CONCURRENCY_PRODUCTION_LIMIT=${N8N_CONCURRENCY_PRODUCTION_LIMIT:--1}
+
+      - N8N_ENCRYPTION_KEY_FILE=/run/secrets/n8n_encryption_key
+      - N8N_USER_MANAGEMENT_JWT_SECRET_FILE=/run/secrets/n8n_user_management_jwt_secret
+      - N8N_PUBLIC_API_DISABLED=${N8N_PUBLIC_API_DISABLED:-false}
+
+      - N8N_DEFAULT_BINARY_DATA_MODE=${N8N_DEFAULT_BINARY_DATA_MODE:-default}
+
+      - N8N_SMTP_HOST=${N8N_SMTP_HOST:-}
+      - N8N_SMTP_PORT=${N8N_SMTP_PORT:-}
+      - N8N_SMTP_USER=${N8N_SMTP_USER:-}
+      - N8N_SMTP_PASS=/run/secrets/n8n_smtp_password
+      - N8N_SMTP_SENDER=${N8N_SMTP_SENDER:-} 
+
+    hostname: n8n
+    restart: unless-stopped
+    ports:
+      - 5678:5678
+    volumes:
+      - n8n_storage:/home/node/.n8n
+    networks:
+      - shared-network
+      - proxy
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.${ROUTE_NAME}.rule=Host(`${N8N_DOMAIN:?N8N_DOMAIN is required}`)"
+        - "traefik.http.routers.${ROUTE_NAME}.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.${ROUTE_NAME}.entrypoints=websecure"
+        - "traefik.http.services.${ROUTE_NAME}.loadbalancer.server.port=5678"
+    secrets:
+      - n8n_db_password
+      - n8n_smtp_password
+      - n8n_encryption_key
+      - n8n_user_management_jwt_secret
+    depends_on:
+      - postgres
+
+secrets:
+  n8n_db_password:
+    external: true
+  n8n_smtp_password:
+    external: true
+  n8n_encryption_key:
+    external: true
+  n8n_user_management_jwt_secret:
+    external: true
+
+volumes:
+  n8n_storage:
+  postgres_storage:
+networks:
+  shared-network:
+  proxy:
+    external: true
