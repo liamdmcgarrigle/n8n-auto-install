@@ -1,3 +1,10 @@
+# ⚠️ Note
+This is overdue for an upgrade.
+I have not done any sucurity patches or anything.
+
+I have a new and completly rewritten version ready to release but have been to busy with the day job to get around to it!
+Please don't use until it's updated (or at least use at your own risk)
+
 # How to use
 
 Just run the command 
